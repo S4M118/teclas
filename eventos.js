@@ -11,17 +11,23 @@
 
 var cuadrito = document.getElementById("area_de_dibujo");
 var lienzo = cuadrito.getContext("2d")
-var x, y, dibujando, color = "blue";
+let x, y, dibujando  = false, color = "blue";
 var estado;
+let xinicial, yinicial;
 
-
+var mouseClick = (e) => {
+    xinicial = e.layerX;
+    yinicial = e.layerY;
+    dibujarLinea(xinicial, yinicial)
+}
 
  cuadrito.addEventListener("mousedown", (e) => {
      x = e.layerX;
      y = e.layerY;
+     dibujarLinea()
      dibujando = true;
 
-     console.log(e)
+     console.log()
  })
 
  cuadrito.addEventListener("mousemove", (e) => {
@@ -40,7 +46,7 @@ var estado;
          dibujando = false
      }
      cuadrito.removeEventListener("mousemove", (e) => {
-        console.log(e)
+        console.log()
      })
  })
 
@@ -48,15 +54,17 @@ var estado;
 
 //  dibujarLinea("red", x-1, y-1, x+1, y+1, papel);
 
-function dibujarLinea(color, xinicial, yinicial, xfinal, yfinal) {
+function dibujarLinea(cursorX, cursorY) {
     lienzo.beginPath();
-    lienzo.strokeStyle = color;
+    lienzo.strokeStyle = "blue";
     lienzo.lineWidth = 3;
     lienzo.moveTo(xinicial, yinicial);
-    lienzo.lineTo(xfinal, yfinal);
+    lienzo.lineTo(cursorX, cursorY);
     lienzo.stroke();
     lienzo.closePath();
-    console.log()
+
+    xinicial = cursorX;
+    yinicial = cursorY;
 }
 
 var colorcito = "blue";
@@ -65,19 +73,19 @@ var movimiento = 1;
 // function dibujarTeclado(evento) { 
 //      switch(evento.keyCode) {
 //          case teclas.UP:
-//             dibujarLinea(colorcito, x, y, x, y - movimiento, papel);
+//             dibujarLinea(colorcito, x, y, x, y - movimiento, lienzo);
 //              y = y - movimiento;
 //             break;
 //          case teclas.DOWN:
-//              dibujarLinea(colorcito, x, y, x, y + movimiento, papel);
+//              dibujarLinea(colorcito, x, y, x, y + movimiento, lienzo);
 //              y = y + movimiento;
 //              break;
 //          case teclas.LEFT:
-//              dibujarLinea(colorcito, x, y, x - movimiento, y, papel);
+//              dibujarLinea(colorcito, x, y, x - movimiento, y, lienzo);
 //              x = x - movimiento;
 //              break;
 //         case teclas.RIGHT:
-//              dibujarLinea(colorcito, x, y, x + movimiento, y, papel);
+//              dibujarLinea(colorcito, x, y, x + movimiento, y, lienzo);
 //              x = x + movimiento;
 //              break;
 //      }
